@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlowBoard - Project Management for Modern Teams</title>
+  <meta name="description" content="FlowBoard is an AI-powered project management platform that helps teams plan, track, and deliver projects 3x faster with smart automation and real-time collaboration.">
+  <link rel="canonical" href="http://localhost:3333/">
+
+  <!-- Open Graph tags -->
+  <meta property="og:title" content="FlowBoard - Project Management for Modern Teams">
+  <meta property="og:description" content="AI-powered project management that helps teams deliver 3x faster.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://localhost:3333/">
+
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-dark: #3730a3;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+      color: var(--gray-800);
+      line-height: 1.6;
+    }
+
+    header {
+      background: white;
+      border-bottom: 1px solid var(--gray-200);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    nav a {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: var(--gray-600);
+      font-weight: 500;
+    }
+
+    nav a:hover { color: var(--primary); }
+
+    .hero {
+      text-align: center;
+      padding: 5rem 2rem;
+      background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      color: var(--gray-900);
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--gray-600);
+      max-width: 640px;
+      margin: 0 auto 2rem;
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      padding: 0.75rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .btn:hover { background: var(--primary-dark); }
+
+    main { max-width: 960px; margin: 0 auto; padding: 4rem 2rem; }
+
+    section { margin-bottom: 4rem; }
+
+    h2 {
+      font-size: 2rem;
+      color: var(--gray-900);
+      margin-bottom: 1.5rem;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      color: var(--gray-800);
+      margin-bottom: 0.5rem;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 2rem;
+    }
+
+    .feature-card p { color: var(--gray-600); margin-top: 0.5rem; }
+
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      text-align: center;
+      background: var(--gray-900);
+      color: white;
+      border-radius: 12px;
+      padding: 3rem 2rem;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #818cf8;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: #9ca3af;
+      margin-top: 0.25rem;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .comparison-table th {
+      background: var(--gray-50);
+      font-weight: 600;
+    }
+
+    .check { color: #16a34a; font-weight: bold; }
+    .cross { color: #dc2626; }
+
+    article {
+      background: var(--gray-50);
+      border-radius: 12px;
+      padding: 2.5rem;
+      margin-top: 1.5rem;
+    }
+
+    article p { color: var(--gray-600); margin-bottom: 1rem; }
+    article ul { margin: 1rem 0 1rem 1.5rem; color: var(--gray-600); }
+    article li { margin-bottom: 0.5rem; }
+
+    .testimonial {
+      border-left: 4px solid var(--primary);
+      padding-left: 1.5rem;
+      margin: 2rem 0;
+      font-style: italic;
+      color: var(--gray-600);
+    }
+
+    .testimonial cite {
+      display: block;
+      font-style: normal;
+      font-weight: 600;
+      color: var(--gray-800);
+      margin-top: 0.5rem;
+    }
+
+    .pricing {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+
+    .price-card {
+      border: 2px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .price-card.featured { border-color: var(--primary); }
+
+    .price {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--gray-900);
+    }
+
+    .price span { font-size: 1rem; color: var(--gray-600); }
+
+    .price-card ul {
+      list-style: none;
+      margin: 1.5rem 0;
+      text-align: left;
+    }
+
+    .price-card li {
+      padding: 0.5rem 0;
+      color: var(--gray-600);
+    }
+
+    footer {
+      background: var(--gray-900);
+      color: var(--gray-200);
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    footer a { color: #818cf8; text-decoration: none; }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">FlowBoard</div>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Ship Projects 3x Faster with AI-Powered Management</h1>
+    <p>FlowBoard combines intelligent task automation, real-time collaboration, and predictive analytics to help engineering teams deliver on time, every time.</p>
+    <a href="#pricing" class="btn">Start Free Trial</a>
+  </section>
+
+  <main>
+
+    <!-- Stats Section -->
+    <section>
+      <div class="stats">
+        <div>
+          <div class="stat-number">12,000+</div>
+          <div class="stat-label">Teams using FlowBoard</div>
+        </div>
+        <div>
+          <div class="stat-number">3.2x</div>
+          <div class="stat-label">Faster delivery on average</div>
+        </div>
+        <div>
+          <div class="stat-number">98%</div>
+          <div class="stat-label">Customer satisfaction</div>
+        </div>
+        <div>
+          <div class="stat-number">47%</div>
+          <div class="stat-label">Reduction in meetings</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features">
+      <h2>Features Built for Engineering Teams</h2>
+      <div class="features">
+        <div class="feature-card">
+          <h3>AI Sprint Planning</h3>
+          <p>FlowBoard's AI analyzes your team's velocity, past sprint data, and current workload to automatically suggest optimal sprint plans. It identifies overloaded team members and recommends task redistribution before bottlenecks occur.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Real-Time Collaboration</h3>
+          <p>Work together seamlessly with live cursors, instant updates, and contextual comments directly on tasks. Integrates natively with Slack, Microsoft Teams, and Discord so your team never misses a status change.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Predictive Analytics</h3>
+          <p>Get accurate delivery forecasts powered by machine learning. FlowBoard analyzes historical patterns across 50+ signals to predict completion dates with 94% accuracy, giving stakeholders reliable timelines.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Automated Workflows</h3>
+          <p>Create custom automation rules without code. Automatically assign reviewers, update statuses, notify stakeholders, and trigger CI/CD pipelines based on task transitions. Over 200 pre-built workflow templates available.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Developer-First Design</h3>
+          <p>Built by engineers, for engineers. Native Git integration tracks commits, PRs, and deployments alongside tasks. API-first architecture with webhooks, GraphQL, and REST endpoints for custom integrations.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Security & Compliance</h3>
+          <p>SOC 2 Type II certified with GDPR compliance built in. Role-based access control, SSO via SAML/OIDC, audit logs, and data residency options across US, EU, and APAC regions.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works">
+      <h2>How FlowBoard Works</h2>
+      <article>
+        <p><strong>FlowBoard replaces your existing project management stack</strong> with a single, intelligent platform. Here is exactly how teams get started and see results within the first week:</p>
+
+        <h3>Step 1: Import Your Existing Projects</h3>
+        <p>Connect FlowBoard to Jira, Asana, Linear, Trello, or GitHub Projects. Our migration engine imports all your tasks, sprints, labels, and history in under 5 minutes. No data is lost during migration, and we maintain all relationships between tasks, epics, and milestones.</p>
+
+        <h3>Step 2: Let AI Analyze Your Workflow</h3>
+        <p>FlowBoard's AI engine spends 24 hours analyzing your team's historical data. It identifies patterns in task completion, common blockers, and workflow inefficiencies. You receive a detailed Workflow Health Report with specific recommendations for improvement.</p>
+
+        <h3>Step 3: Activate Smart Automation</h3>
+        <p>Based on the analysis, FlowBoard suggests automation rules tailored to your team. Common automations include automatic PR linking, smart status transitions, blocker detection, and standup report generation. Each automation shows estimated time savings before you enable it.</p>
+
+        <h3>Step 4: Ship Faster, Together</h3>
+        <p>Within one week, teams typically see a 40% reduction in project management overhead. The AI continuously learns and adapts its suggestions based on your team's evolving patterns. Monthly insight reports show exactly how much time and effort FlowBoard has saved.</p>
+      </article>
+    </section>
+
+    <!-- Comparison Table -->
+    <section>
+      <h2>FlowBoard vs. Traditional Project Management Tools</h2>
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Capability</th>
+            <th>FlowBoard</th>
+            <th>Jira</th>
+            <th>Asana</th>
+            <th>Linear</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>AI Sprint Planning</td>
+            <td class="check">Yes</td>
+            <td class="cross">No</td>
+            <td class="cross">No</td>
+            <td class="cross">No</td>
+          </tr>
+          <tr>
+            <td>Predictive Delivery Dates</td>
+            <td class="check">94% accuracy</td>
+            <td class="cross">Manual only</td>
+            <td class="cross">Manual only</td>
+            <td class="cross">Basic</td>
+          </tr>
+          <tr>
+            <td>Native Git Integration</td>
+            <td class="check">Full (commits, PRs, deploys)</td>
+            <td class="check">Via plugin</td>
+            <td class="cross">Limited</td>
+            <td class="check">Full</td>
+          </tr>
+          <tr>
+            <td>Real-Time Collaboration</td>
+            <td class="check">Live cursors + comments</td>
+            <td class="cross">Polling-based</td>
+            <td class="check">Yes</td>
+            <td class="check">Yes</td>
+          </tr>
+          <tr>
+            <td>Workflow Automation</td>
+            <td class="check">200+ templates, AI-suggested</td>
+            <td class="check">JQL-based rules</td>
+            <td class="check">Basic rules</td>
+            <td class="check">Basic rules</td>
+          </tr>
+          <tr>
+            <td>Setup Time</td>
+            <td class="check">5 minutes</td>
+            <td class="cross">2-4 weeks</td>
+            <td class="cross">1-2 weeks</td>
+            <td class="check">30 minutes</td>
+          </tr>
+          <tr>
+            <td>Free Tier</td>
+            <td class="check">Up to 10 users</td>
+            <td class="check">Up to 10 users</td>
+            <td class="check">Up to 15 users</td>
+            <td class="check">Unlimited</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Testimonials -->
+    <section>
+      <h2>What Engineering Leaders Say</h2>
+      <div class="testimonial">
+        <p>"FlowBoard cut our sprint planning time from 3 hours to 20 minutes. The AI suggestions are eerily accurate - it predicted our Q3 delivery date within 2 days of the actual ship date."</p>
+        <cite>Sarah Chen, VP of Engineering at DataStack (Series B, 45 engineers)</cite>
+      </div>
+      <div class="testimonial">
+        <p>"We migrated from Jira in one afternoon. The automated workflow suggestions alone saved us 12 hours per week across the team. I wish we had switched sooner."</p>
+        <cite>Marcus Rodriguez, CTO at BuildKit (YC W23, 20 engineers)</cite>
+      </div>
+      <div class="testimonial">
+        <p>"The predictive analytics feature changed how we communicate with stakeholders. Instead of guessing timelines, we share FlowBoard's data-backed forecasts. Our on-time delivery rate went from 60% to 92%."</p>
+        <cite>Priya Patel, Engineering Manager at CloudNine (Enterprise, 200+ engineers)</cite>
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing">
+      <h2>Simple, Transparent Pricing</h2>
+      <div class="pricing">
+        <div class="price-card">
+          <h3>Starter</h3>
+          <div class="price">Free</div>
+          <p style="color: var(--gray-600);">For small teams getting started</p>
+          <ul>
+            <li>Up to 10 users</li>
+            <li>Basic AI sprint planning</li>
+            <li>5 automation rules</li>
+            <li>GitHub integration</li>
+            <li>Community support</li>
+          </ul>
+          <a href="#" class="btn" style="background: var(--gray-700);">Get Started</a>
+        </div>
+        <div class="price-card featured">
+          <h3>Pro</h3>
+          <div class="price">$12 <span>/ user / month</span></div>
+          <p style="color: var(--gray-600);">For growing engineering teams</p>
+          <ul>
+            <li>Unlimited users</li>
+            <li>Advanced AI planning + forecasting</li>
+            <li>Unlimited automations</li>
+            <li>All integrations (Slack, Teams, etc.)</li>
+            <li>Priority support + SLA</li>
+          </ul>
+          <a href="#" class="btn">Start Free Trial</a>
+        </div>
+        <div class="price-card">
+          <h3>Enterprise</h3>
+          <div class="price">Custom</div>
+          <p style="color: var(--gray-600);">For large organizations</p>
+          <ul>
+            <li>Everything in Pro</li>
+            <li>SSO (SAML/OIDC)</li>
+            <li>Audit logs + compliance</li>
+            <li>Data residency options</li>
+            <li>Dedicated success manager</li>
+          </ul>
+          <a href="#" class="btn" style="background: var(--gray-700);">Contact Sales</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section (intentionally NOT using FAQ schema - agents should flag this) -->
+    <section id="faq">
+      <h2>Frequently Asked Questions</h2>
+
+      <article>
+        <h3>What is FlowBoard and how does it differ from Jira?</h3>
+        <p>FlowBoard is an AI-powered project management platform built specifically for engineering teams. Unlike Jira, which requires extensive configuration and relies on manual processes, FlowBoard uses artificial intelligence to automate sprint planning, predict delivery dates, and optimize team workflows. FlowBoard sets up in 5 minutes compared to Jira's typical 2-4 week onboarding process. The AI engine continuously learns from your team's patterns and proactively suggests improvements.</p>
+
+        <h3>How accurate are FlowBoard's delivery predictions?</h3>
+        <p>FlowBoard's predictive analytics engine achieves 94% accuracy on delivery date forecasts based on analysis of over 2 million completed sprints across 12,000 teams. The model considers 50+ signals including historical velocity, current work-in-progress, team capacity, and seasonal patterns. Predictions improve over time as the AI learns your specific team's cadence. New teams typically see 85% accuracy within the first two sprints, reaching 94%+ accuracy by sprint four.</p>
+
+        <h3>Can I migrate from my existing project management tool?</h3>
+        <p>Yes. FlowBoard supports one-click migration from Jira, Asana, Linear, Trello, GitHub Projects, Monday.com, and ClickUp. The migration engine preserves all tasks, subtasks, comments, attachments, sprint history, labels, and relationships. Most teams complete migration in under 5 minutes. We also provide a rollback option for 30 days after migration, so you can switch back if needed at no risk.</p>
+
+        <h3>Is FlowBoard secure enough for enterprise use?</h3>
+        <p>FlowBoard is SOC 2 Type II certified and fully GDPR compliant. Enterprise features include SAML and OIDC-based SSO, role-based access control with custom roles, comprehensive audit logging, and data residency options across US, EU, and APAC regions. We undergo annual third-party penetration testing and maintain a responsible disclosure program. All data is encrypted at rest (AES-256) and in transit (TLS 1.3).</p>
+
+        <h3>What integrations does FlowBoard support?</h3>
+        <p>FlowBoard integrates with 80+ tools across development, communication, and CI/CD categories. Key integrations include GitHub, GitLab, Bitbucket, Slack, Microsoft Teams, Discord, Jenkins, CircleCI, GitHub Actions, Vercel, AWS, Datadog, PagerDuty, and Figma. Our API-first architecture also supports custom integrations via REST, GraphQL, and webhooks. The average team connects 6 integrations during setup.</p>
+
+        <h3>Does FlowBoard work for non-engineering teams?</h3>
+        <p>While FlowBoard is optimized for engineering workflows, many organizations use it across product, design, and marketing teams. The automation engine and AI planning features work with any project type. However, developer-specific features like Git integration and CI/CD tracking are most valuable for engineering teams. We recommend FlowBoard Pro for cross-functional teams that include both engineering and non-engineering members.</p>
+      </article>
+    </section>
+
+    <!-- Additional Content for Depth -->
+    <section>
+      <h2>The Science Behind FlowBoard's AI</h2>
+      <article>
+        <p>FlowBoard's prediction engine is built on a transformer-based model trained on anonymized data from over 2 million completed sprints. The model processes 50+ input signals to generate delivery forecasts:</p>
+        <ul>
+          <li><strong>Velocity Signals:</strong> Story points completed per sprint, trend direction, and variance</li>
+          <li><strong>Capacity Signals:</strong> Team availability, PTO schedules, on-call rotations, and meeting load</li>
+          <li><strong>Complexity Signals:</strong> Task descriptions, labels, file change patterns, and dependency depth</li>
+          <li><strong>External Signals:</strong> Sprint timing (end-of-quarter, holidays), company growth rate, and team tenure</li>
+        </ul>
+        <p>The model outputs a probability distribution of completion dates, not just a single estimate. This allows teams to plan with confidence intervals. For example, "85% chance of completing by March 15, 95% chance by March 22." This level of transparency helps engineering leaders make informed trade-off decisions with stakeholders.</p>
+        <p>FlowBoard's AI is continuously updated. We retrain the global model monthly with new anonymized sprint data. Each team's instance also runs a local fine-tuning loop that adapts predictions to team-specific patterns within 2-4 sprints of initial setup. Privacy is paramount: team-specific data never leaves the local model, and the global model only receives statistical aggregates, never raw task data.</p>
+      </article>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-links">
+      <a href="#">Documentation</a>
+      <a href="#">API Reference</a>
+      <a href="#">Blog</a>
+      <a href="#">Status</a>
+      <a href="#">Careers</a>
+      <a href="#">Contact</a>
+    </div>
+    <p>FlowBoard, Inc. &copy; 2026. All rights reserved.</p>
+    <p style="margin-top: 0.5rem; font-size: 0.85rem;">123 Innovation Drive, San Francisco, CA 94105 | <a href="mailto:hello@flowboard.dev">hello@flowboard.dev</a></p>
+  </footer>
+
+</body>
+</html>
