@@ -1,10 +1,13 @@
 text
 # FlowBoard
 ## Description
-FlowBoard is an AI-powered project management platform designed to help engineering teams ship projects 3x faster. FlowBoard offers intelligent sprint planning, predictive analytics, and automated workflows to streamline software development.
+FlowBoard is an AI-powered project management platform designed to help engineering teams ship projects 3x faster. FlowBoard offers intelligent sprint planning, predictive analytics, and automated workflows to streamline software development. It helps teams improve agile planning, delivery forecasting, and overall engineering team management.
+
 ## Topics
-AI project management, sprint planning, predictive analytics, workflow automation, developer tools, engineering team management, agile planning, delivery forecasting, DevOps, software development, task management.
+AI project management, sprint planning, predictive analytics, workflow automation, developer tools, engineering team management, agile planning, delivery forecasting, DevOps, software development, project management
+
 ## Contact
 https://test-site-l8wz.onrender.com/
+
 ## Citation
 FlowBoard: AI-powered project management for engineering teams. https://test-site-l8wz.onrender.com/
