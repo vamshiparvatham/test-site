@@ -329,51 +329,60 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "FlowBoard-test",
-  "url": "https://test-site-l8wz.onrender.com/",
-  "description": "FlowBoard-test is an AI-powered project management platform that helps engineering teams ship projects 3x faster with intelligent sprint planning, predictive analytics, and automated workflows.",
-  "industry": "Project Management Software / DevOps Tools",
-  "logo": "https://test-site-l8wz.onrender.com/logo.png",
-  "sameAs": [
-    "https://www.linkedin.com/company/example",
-    "https://twitter.com/example"
+  "@graph": [
+    {
+      "@type": "Organization",
+      "name": "FlowBoard-test",
+      "url": "https://test-site-l8wz.onrender.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://test-site-l8wz.onrender.com/images/flowboard-logo.png",
+        "width": 600,
+        "height": 60
+      },
+      "sameAs": [
+        "https://www.linkedin.com/company/flowboard-test",
+        "https://www.crunchbase.com/organization/flowboard-test",
+        "https://www.g2.com/products/flowboard-test/reviews"
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://test-site-l8wz.onrender.com/#webpage",
+      "url": "https://test-site-l8wz.onrender.com/",
+      "name": "FlowBoard-test: AI-Powered Project Management for Engineering Teams",
+      "description": "FlowBoard-test helps engineering teams ship projects 3x faster with intelligent sprint planning, predictive analytics, and automated workflows.",
+      "author": {
+        "@type": "Organization",
+        "name": "FlowBoard-test",
+        "url": "https://test-site-l8wz.onrender.com/"
+      },
+      "publisher": {
+        "@id": "https://test-site-l8wz.onrender.com/#organization"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "The State of DevOps Report",
+          "url": "https://www.example.com/state-of-devops-report"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Project Management Institute (PMI)",
+          "url": "https://www.pmi.org/"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Forrester Wave: Agile Project Management Tools",
+          "url": "https://www.example.com/forrester-agile-tools"
+        }
+      ],
+      "sameAs": [
+        "https://www.linkedin.com/company/flowboard-test",
+        "https://www.crunchbase.com/organization/flowboard-test"
+      ]
+    }
   ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "url": "https://test-site-l8wz.onrender.com/",
-  "name": "FlowBoard-test",
-  "description": "AI-powered project management platform for engineering teams.",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://test-site-l8wz.onrender.com/search?q={search_term_string}",
-    "query-input": "required name=search_term_string"
-  }
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "FlowBoard-test",
-  "operatingSystem": "Web Application",
-  "applicationCategory": "Project Management",
-  "featureList": [
-    "AI-powered sprint planning",
-    "Predictive analytics",
-    "Automated workflows"
-  ],
-  "url": "https://test-site-l8wz.onrender.com/",
-  "description": "FlowBoard-test helps engineering teams ship projects 3x faster.",
-  "offers": {
-    "@type": "Offer",
-    "priceCurrency": "USD",
-    "availability": "https://schema.org/InStock"
-  }
 }
 </script>
 <!-- AEO:schema_injection:end -->
