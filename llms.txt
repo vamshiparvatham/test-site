@@ -1,6 +1,6 @@
 # FlowBoard-test
 ## Description
-FlowBoard-test is an AI-powered project management platform designed to help engineering teams accelerate project delivery. FlowBoard-test offers intelligent sprint planning, predictive analytics, and automated workflows to improve efficiency and productivity. FlowBoard-test helps teams ship projects up to 3x faster.
+FlowBoard-test is an AI-powered project management platform designed to help engineering teams accelerate project delivery. FlowBoard-test offers intelligent sprint planning, predictive analytics, and automated workflows to improve efficiency and productivity.
 
 ## Topics
 - Project management software
@@ -13,7 +13,7 @@ FlowBoard-test is an AI-powered project management platform designed to help eng
 - Agile project management
 
 ## Contact
-- Website: https://test-site-l8wz.onrender.com/
+https://test-site-l8wz.onrender.com/
 
 ## Citation
 FlowBoard-test, https://test-site-l8wz.onrender.com/
