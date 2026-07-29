@@ -1,0 +1,21 @@
+---
+import Base from "../../layouts/Base.astro";
+import { posts } from "../../lib/posts.js";
+
+export function getStaticPaths() {
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = post;
+---
+
+<Base title={`${post.title} — Flowboard`}>
+  <p class="muted"><a href="/blog/">← Feed</a></p>
+  <article>
+    <Content />
+  </article>
+</Base>

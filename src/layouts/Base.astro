@@ -1,0 +1,78 @@
+---
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <style>
+      :root {
+        --ink: #12151a;
+        --muted: #5b6472;
+        --line: #e4e7ec;
+        --accent: #2f6df6;
+        --bg: #fff;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --ink: #e8ebf0;
+          --muted: #98a1af;
+          --line: #262b33;
+          --accent: #7aa2ff;
+          --bg: #0e1116;
+        }
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font: 16px/1.65 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      }
+      .wrap { max-width: 46rem; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
+      header.site {
+        border-bottom: 1px solid var(--line);
+        padding: 1rem 1.25rem;
+      }
+      header.site .inner {
+        max-width: 46rem; margin: 0 auto;
+        display: flex; gap: 1.25rem; align-items: baseline;
+      }
+      header.site a { color: var(--ink); text-decoration: none; font-weight: 600; }
+      header.site nav a { color: var(--muted); font-weight: 500; }
+      header.site nav a:hover { color: var(--accent); }
+      a { color: var(--accent); }
+      h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 .5rem; }
+      h2 { margin-top: 2.25rem; }
+      img { max-width: 100%; height: auto; border-radius: .5rem; }
+      pre { overflow-x: auto; padding: 1rem; background: rgba(127,127,127,.1); border-radius: .5rem; }
+      table { display: block; overflow-x: auto; border-collapse: collapse; }
+      .muted { color: var(--muted); }
+      .card {
+        display: block; padding: 1rem 1.1rem; margin-bottom: .75rem;
+        border: 1px solid var(--line); border-radius: .75rem;
+        text-decoration: none; color: inherit;
+      }
+      .card:hover { border-color: var(--accent); }
+      .empty {
+        border: 1px dashed var(--line); border-radius: .75rem;
+        padding: 2rem; text-align: center; color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site">
+      <div class="inner">
+        <a href="/">Flowboard</a>
+        <nav><a href="/blog/">Feed</a></nav>
+      </div>
+    </header>
+    <main class="wrap">
+      <slot />
+    </main>
+  </body>
+</html>

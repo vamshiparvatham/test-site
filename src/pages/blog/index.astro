@@ -1,0 +1,30 @@
+---
+import Base from "../../layouts/Base.astro";
+import { posts } from "../../lib/posts.js";
+---
+
+<Base
+  title="Feed — Flowboard"
+  description="Posts published to this site from Magnet."
+>
+  <h1>Feed</h1>
+  <p class="muted">
+    Posts published from Magnet land in <code>content/feed/</code> and appear
+    here on the next build.
+  </p>
+
+  {
+    posts.length === 0 ? (
+      <p class="empty">
+        Nothing published yet. Hit <strong>Publish</strong> on a ready feed item
+        in Magnet — it commits to this repo and Render rebuilds automatically.
+      </p>
+    ) : (
+      posts.map((post) => (
+        <a class="card" href={`/blog/${post.slug}/`}>
+          <strong>{post.title}</strong>
+        </a>
+      ))
+    )
+  }
+</Base>
