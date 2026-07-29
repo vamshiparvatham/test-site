@@ -9,7 +9,14 @@ const { title, description } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
-    <style>
+    <!--
+      is:global is REQUIRED here, not a shortcut. Astro scopes <style> to the
+      elements written in the same component, so without it: the .card class
+      (used in index.astro) gets stripped, and <Content /> -- HTML generated
+      from Magnet's markdown at build time -- receives no styling at all,
+      rendering as unstyled browser default text.
+    -->
+    <style is:global>
       :root {
         --ink: #12151a;
         --muted: #5b6472;
@@ -46,9 +53,16 @@ const { title, description } = Astro.props;
       header.site nav a { color: var(--muted); font-weight: 500; }
       header.site nav a:hover { color: var(--accent); }
       a { color: var(--accent); }
-      h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 .5rem; }
-      h2 { margin-top: 2.25rem; }
-      img { max-width: 100%; height: auto; border-radius: .5rem; }
+      h1 { font-size: 2rem; line-height: 1.25; margin: 0 0 1rem; letter-spacing: -.01em; }
+      h2 { font-size: 1.35rem; margin: 2.25rem 0 .6rem; letter-spacing: -.01em; }
+      h3 { font-size: 1.1rem; margin: 1.75rem 0 .4rem; }
+      p { margin: 0 0 1rem; }
+      ul, ol { padding-left: 1.25rem; margin: 0 0 1rem; }
+      li { margin: .35rem 0; }
+      li > strong { color: var(--ink); }
+      article > img:first-child { margin-bottom: 1.75rem; }
+      hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
+      img { max-width: 100%; height: auto; border-radius: .5rem; display: block; }
       pre { overflow-x: auto; padding: 1rem; background: rgba(127,127,127,.1); border-radius: .5rem; }
       table { display: block; overflow-x: auto; border-collapse: collapse; }
       .muted { color: var(--muted); }
