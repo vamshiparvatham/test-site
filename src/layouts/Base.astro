@@ -1,5 +1,7 @@
 ---
-const { title, description } = Astro.props;
+// `wide` widens the container so a post with an on-this-page sidebar still
+// leaves the prose column a comfortable measure.
+const { title, description, wide = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -41,6 +43,7 @@ const { title, description } = Astro.props;
         font: 16px/1.65 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
       }
       .wrap { max-width: 46rem; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
+      .wrap-wide { max-width: 66rem; }
       header.site {
         border-bottom: 1px solid var(--line);
         padding: 1rem 1.25rem;
@@ -85,7 +88,7 @@ const { title, description } = Astro.props;
         <nav><a href="/blog/">Feed</a></nav>
       </div>
     </header>
-    <main class="wrap">
+    <main class:list={["wrap", wide && "wrap-wide"]}>
       <slot />
     </main>
   </body>

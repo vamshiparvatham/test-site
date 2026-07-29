@@ -10,12 +10,132 @@ export function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = post;
+const { Content, headings, frontmatter } = post;
+
+// Below three sections a sidebar is more chrome than help, so the nav only
+// appears once there is enough to navigate.
+const showToc = headings.length >= 3;
+const published = frontmatter.date
+  ? new Date(frontmatter.date).toLocaleDateString(undefined, {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    })
+  : null;
 ---
 
-<Base title={`${post.title} — Flowboard`}>
+<Base title={`${post.title} — Flowboard`} description={frontmatter.description} wide={showToc}>
   <p class="muted"><a href="/blog/">← Feed</a></p>
-  <article>
-    <Content />
-  </article>
+
+  <div class:list={["post-shell", showToc && "has-toc"]}>
+    {
+      showToc && (
+        <aside class="toc" aria-label="On this page">
+          <p class="toc-title">On this page</p>
+          <nav>
+            <ul>
+              {headings.map((h) => (
+                <li>
+                  <a href={`#${h.slug}`} data-toc-link={h.slug}>
+                    {h.text}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </aside>
+      )
+    }
+
+    <article>
+      {published && <p class="muted byline">{published}</p>}
+      <Content />
+    </article>
+  </div>
 </Base>
+
+<style is:global>
+  .post-shell.has-toc {
+    display: grid;
+    gap: 2.5rem;
+    align-items: start;
+  }
+  @media (min-width: 60rem) {
+    .post-shell.has-toc {
+      grid-template-columns: 15rem minmax(0, 1fr);
+    }
+    .post-shell.has-toc .toc {
+      position: sticky;
+      top: 1.5rem;
+      max-height: calc(100vh - 3rem);
+      overflow-y: auto;
+    }
+  }
+  .byline { margin-bottom: 1.5rem; font-size: .9rem; }
+  .toc-title {
+    margin: 0 0 .6rem;
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .toc nav ul { list-style: none; margin: 0; padding: 0; }
+  .toc nav li { margin: 0; }
+  .toc nav a {
+    display: block;
+    padding: .4rem .75rem;
+    border-left: 2px solid var(--line);
+    color: var(--muted);
+    text-decoration: none;
+    font-size: .875rem;
+    line-height: 1.4;
+  }
+  .toc nav a:hover { color: var(--ink); }
+  /* Reflects the section currently in view, set by the observer below. */
+  .toc nav a[aria-current="true"] {
+    border-left-color: var(--accent);
+    color: var(--accent);
+    font-weight: 600;
+  }
+  /* Anchor jumps land under the sticky header without this. */
+  article :is(h2, h3) { scroll-margin-top: 1.5rem; }
+</style>
+
+<script>
+  // Highlights the section currently in view. Progressive enhancement only —
+  // without JS the nav is still a working list of anchor links.
+  const links = new Map();
+  document.querySelectorAll("[data-toc-link]").forEach((el) => {
+    links.set(el.getAttribute("data-toc-link"), el);
+  });
+
+  if (links.size > 0) {
+    const targets = [...links.keys()]
+      .map((id) => document.getElementById(id))
+      .filter(Boolean);
+
+    let current = null;
+    const setCurrent = (id) => {
+      if (id === current) return;
+      if (current) links.get(current)?.removeAttribute("aria-current");
+      current = id;
+      if (id) links.get(id)?.setAttribute("aria-current", "true");
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Topmost heading intersecting the upper band of the viewport wins, so
+        // the highlight tracks reading position rather than whichever heading
+        // fired last.
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible.length > 0) setCurrent(visible[0].target.id);
+      },
+      { rootMargin: "0px 0px -70% 0px", threshold: 0 },
+    );
+
+    targets.forEach((t) => observer.observe(t));
+  }
+</script>

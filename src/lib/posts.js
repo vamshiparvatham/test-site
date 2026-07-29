@@ -30,6 +30,15 @@ export const posts = Object.entries(modules)
       h1?.text ??
       slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 
-    return { slug, title, Content: mod.Content, frontmatter: mod.frontmatter ?? {} };
+    return {
+      slug,
+      title,
+      Content: mod.Content,
+      frontmatter: mod.frontmatter ?? {},
+      // Astro assigns an id to every heading it renders, so these double as the
+      // anchor targets for the on-this-page nav. h1 is excluded: it is the post
+      // title, not a section you navigate to.
+      headings: headings.filter((h) => h.depth === 2),
+    };
   })
   .sort((a, b) => a.title.localeCompare(b.title));
