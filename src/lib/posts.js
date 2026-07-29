@@ -33,6 +33,14 @@ export const posts = Object.entries(modules)
     return {
       slug,
       title,
+      // "blog" | "service" | "product" from Magnet's front-matter. Older files
+      // published before the publisher emitted it fall back to "blog" so they
+      // still get a badge and appear under a filter.
+      type: mod.frontmatter?.type ?? "blog",
+      date: mod.frontmatter?.date ?? null,
+      image: mod.frontmatter?.image ?? null,
+      imageAlt: mod.frontmatter?.imageAlt ?? "",
+      description: mod.frontmatter?.description ?? "",
       Content: mod.Content,
       frontmatter: mod.frontmatter ?? {},
       // Astro assigns an id to every heading it renders, so these double as the
@@ -41,4 +49,5 @@ export const posts = Object.entries(modules)
       headings: headings.filter((h) => h.depth === 2),
     };
   })
-  .sort((a, b) => a.title.localeCompare(b.title));
+  // Newest first: a resource hub is browsed by recency, not alphabetically.
+  .sort((a, b) => String(b.date ?? "").localeCompare(String(a.date ?? "")));

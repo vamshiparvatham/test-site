@@ -1,30 +1,155 @@
 ---
 import Base from "../../layouts/Base.astro";
 import { posts } from "../../lib/posts.js";
+
+// Only offer a filter for types that actually exist, so a site publishing blogs
+// only never shows an empty "Products (0)" pill.
+const TYPE_LABELS = { blog: "Blogs", service: "Services", product: "Products" };
+const counts = posts.reduce((acc, p) => {
+  acc[p.type] = (acc[p.type] ?? 0) + 1;
+  return acc;
+}, {});
+const filters = [
+  { key: "all", label: "All", count: posts.length },
+  ...Object.keys(TYPE_LABELS)
+    .filter((t) => counts[t])
+    .map((t) => ({ key: t, label: TYPE_LABELS[t], count: counts[t] })),
+];
+
+const fmtDate = (d) =>
+  d
+    ? new Date(d).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })
+    : null;
 ---
 
 <Base
-  title="Feed — Flowboard"
-  description="Posts published to this site from Magnet."
+  title="Resource Hub — Flowboard"
+  description="Everything published to this site from Magnet."
+  wide={true}
 >
-  <h1>Feed</h1>
-  <p class="muted">
-    Posts published from Magnet land in <code>content/feed/</code> and appear
-    here on the next build.
-  </p>
+  <header class="hub-head">
+    <h1>Resource Hub</h1>
+    <p class="hub-sub">Quick look at everything you need to know about Flowboard</p>
+
+    {
+      posts.length > 0 && (
+        <div class="pills" role="group" aria-label="Filter by type">
+          {filters.map((f, i) => (
+            <button
+              type="button"
+              class="pill"
+              data-filter={f.key}
+              aria-pressed={i === 0 ? "true" : "false"}
+            >
+              {f.label} ({f.count})
+            </button>
+          ))}
+        </div>
+      )
+    }
+  </header>
 
   {
     posts.length === 0 ? (
       <p class="empty">
-        Nothing published yet. Hit <strong>Publish</strong> on a ready feed item
-        in Magnet — it commits to this repo and Render rebuilds automatically.
+        Nothing published yet. Hit <strong>Publish</strong> on a ready feed item in
+        Magnet — it commits to this repo and Render rebuilds automatically.
       </p>
     ) : (
-      posts.map((post) => (
-        <a class="card" href={`/blog/${post.slug}/`}>
-          <strong>{post.title}</strong>
-        </a>
-      ))
+      <ul class="grid">
+        {posts.map((post) => (
+          <li class="cell" data-type={post.type}>
+            <a class="tile" href={`/blog/${post.slug}/`}>
+              {post.image ? (
+                <img class="thumb" src={post.image} alt={post.imageAlt} loading="lazy" />
+              ) : (
+                <span class="thumb thumb-blank" aria-hidden="true" />
+              )}
+              <span class="tile-body">
+                <span class="tile-title">{post.title}</span>
+                <span class="tile-meta">
+                  {fmtDate(post.date) && <span class="chip-date">{fmtDate(post.date)}</span>}
+                  <span class={`chip-type chip-${post.type}`}>{TYPE_LABELS[post.type]}</span>
+                </span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
     )
   }
 </Base>
+
+<style is:global>
+  .hub-head { text-align: center; margin-bottom: 2.5rem; }
+  .hub-head h1 { font-size: clamp(2.25rem, 6vw, 3.5rem); margin: 0 0 .5rem; }
+  .hub-sub { color: var(--muted); font-size: 1.05rem; margin: 0 0 1.75rem; }
+
+  .pills {
+    display: inline-flex; flex-wrap: wrap; gap: .25rem;
+    padding: .3rem; border: 1px solid var(--line); border-radius: 999px;
+  }
+  .pill {
+    border: 0; background: transparent; cursor: pointer;
+    padding: .5rem 1.1rem; border-radius: 999px;
+    font: inherit; font-size: .9rem; color: var(--muted);
+  }
+  .pill:hover { color: var(--ink); }
+  .pill[aria-pressed="true"] {
+    background: var(--accent); color: #fff; font-weight: 600;
+  }
+
+  .grid {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; gap: 1.25rem;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  }
+  /* Hidden by the filter, rather than removed, so no layout thrash on toggle. */
+  .cell[hidden] { display: none; }
+
+  .tile {
+    display: flex; flex-direction: column; height: 100%;
+    border: 1px solid var(--line); border-radius: .85rem; overflow: hidden;
+    text-decoration: none; color: inherit; background: var(--bg);
+    transition: border-color .15s, transform .15s;
+  }
+  .tile:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .thumb {
+    width: 100%; aspect-ratio: 16 / 10; object-fit: cover;
+    border-radius: 0; display: block;
+  }
+  .thumb-blank { background: var(--line); }
+  .tile-body { display: flex; flex-direction: column; gap: .75rem; padding: 1rem; flex: 1; }
+  .tile-title { font-weight: 600; line-height: 1.35; }
+  .tile-meta { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: auto; align-items: center; }
+  .chip-date, .chip-type {
+    font-size: .75rem; padding: .25rem .55rem; border-radius: .4rem;
+    background: var(--line); color: var(--muted); white-space: nowrap;
+  }
+  .chip-blog { background: rgba(47, 109, 246, .12); color: var(--accent); }
+  .chip-service { background: rgba(214, 51, 132, .12); color: #d63384; }
+  .chip-product { background: rgba(25, 135, 84, .14); color: #198754; }
+  @media (prefers-color-scheme: dark) {
+    .chip-service { color: #ff8fc4; }
+    .chip-product { color: #4ade80; }
+  }
+</style>
+
+<script>
+  // Client-side filtering. Progressive enhancement: without JS every card is
+  // visible and the pills simply do nothing, which is the correct fallback for
+  // an index page.
+  const pills = document.querySelectorAll("[data-filter]");
+  const cells = document.querySelectorAll(".cell");
+
+  pills.forEach((pill) => {
+    pill.addEventListener("click", () => {
+      const want = pill.getAttribute("data-filter");
+      pills.forEach((p) => p.setAttribute("aria-pressed", String(p === pill)));
+      cells.forEach((cell) => {
+        const show = want === "all" || cell.getAttribute("data-type") === want;
+        cell.toggleAttribute("hidden", !show);
+      });
+    });
+  });
+</script>
